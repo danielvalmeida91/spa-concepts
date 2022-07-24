@@ -1,33 +1,13 @@
-import './router.js'
-const routes = {
-  // the property route will be created with "" because we cannot access for example routes./about
-  // correct form to access this property is routes["/about"]
-  '/': '/pages/home.html',
-  '/about': '/pages/about.html',
-  '/contact': '/pages/contact.html',
-  404: '/pages/404.html'
-}
-function route(event) {
-  event = event || window.event
-  event.preventDefault()
+import { Router } from './router.js'
 
-  window.history.pushState({}, '', event.target.href)
+const router = new Router()
 
-  handle()
-}
+router.add('/', '/pages/home.html')
+router.add('/about', '/pages/about.html')
+router.add('/contact', '/pages/contact.html')
+router.add(404, '/pages/404.html')
 
-function handle() {
-  // /about, /. /404 , /contact
-  // const pathname = window.location.pathname
-  const { pathname } = window.location // destructuring method [best choice]
-  const route = routes[pathname] || routes[404]
+router.handle()
 
-  fetch(route)
-    .then(data => data.text())
-    .then(html => {
-      document.querySelector('#app').innerHTML = html
-    })
-}
-
-window.onpopstate = () => handle()
-window.route = () => route()
+window.onpopstate = () => router.handle()
+window.route = () => router.route()
