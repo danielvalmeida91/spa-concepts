@@ -1,3 +1,4 @@
+import './router.js'
 const routes = {
   // the property route will be created with "" because we cannot access for example routes./about
   // correct form to access this property is routes["/about"]
